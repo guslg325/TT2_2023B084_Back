@@ -6,6 +6,8 @@ from handlers.addProductoHandler import add_producto_handler;
 from handlers.addStockHandler import add_stock_handler;
 from handlers.removeStockHandler import remove_stock_handler;
 from handlers.desactivarProductoHandler import desactivar_producto_handler;
+from handlers.getMermasHandler import get_mermas_handler;
+from handlers.getExistenciasHandler import get_existencias_handler;
 
 def sum(a, b):
   return a + b;
@@ -74,7 +76,7 @@ def test_hacer_compra():
 
   # print(get_ventas_handler())
   ##desactivar_producto_handler("PROD001");
-  print(get_all_marcas_handler())
+  print(get_existencias_handler("PROD001"))
   assert True
 
 test_hacer_compra()

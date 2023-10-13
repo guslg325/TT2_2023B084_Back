@@ -11,7 +11,11 @@ from handlers.removeStockHandler import remove_stock_handler;
 from handlers.desactivarProductoHandler import desactivar_producto_handler;
 from handlers.editProductoHandler import edit_producto_handler;
 from handlers.addMarcaHandler import add_marca_handler;
+from handlers.getMermasHandler import get_mermas_handler;
+from handlers.getExistenciasHandler import get_existencias_handler;
+
 import pyodbc;
+
 
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
@@ -41,7 +45,24 @@ def get_ventas(req: func.HttpRequest) -> func.HttpResponse:
         mimetype="application/json",
         charset="utf-8",
     )
-
+@app.route(route="get-lista-mermas", methods=["GET"])
+def get_mermas(req: func.HttpRequest) -> func.HttpResponse:
+    result = get_mermas_handler();
+    return func.HttpResponse(
+        json.dumps(result),
+        headers={"Content-Type": "application/json"},
+        mimetype="application/json",
+        charset="utf-8",
+    )
+@app.route(route="get-lista-existencias", methods=["GET"])
+def get_existencias(req: func.HttpRequest) -> func.HttpResponse:
+    result = get_existencias_handler(req.params.get('codigo'));
+    return func.HttpResponse(
+        json.dumps(result),
+        headers={"Content-Type": "application/json"},
+        mimetype="application/json",
+        charset="utf-8",
+    )
 
 @app.route(route="get-all-marcas", methods=["GET"])
 def get_marcas(req: func.HttpRequest) -> func.HttpResponse:
