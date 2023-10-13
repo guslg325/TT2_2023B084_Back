@@ -3,6 +3,7 @@
 # Manually managing azure-functions-worker may cause unexpected issues
 
 azure-functions
+azure-identity
 sqlalchemy~=2.0.21
 pytest~=7.4.2
 SQLAlchemy~=2.0.20

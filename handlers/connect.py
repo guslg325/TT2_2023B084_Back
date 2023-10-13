@@ -31,7 +31,7 @@ def create_session(url: str = None, echo: bool = False, drop_create: bool = Fals
             port=1433,
             database=os.environ.get("DB_NAME"),
             query={
-                "driver": "ODBC Driver 18 for SQL Server",
+                "driver": "ODBC Driver 17 for SQL Server",
                 "TrustServerCertificate": "yes",
                 "Encrypt": "yes",
             },

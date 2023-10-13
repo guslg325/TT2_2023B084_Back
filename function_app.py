@@ -11,6 +11,7 @@ from handlers.removeStockHandler import remove_stock_handler;
 from handlers.desactivarProductoHandler import desactivar_producto_handler;
 from handlers.editProductoHandler import edit_producto_handler;
 from handlers.addMarcaHandler import add_marca_handler;
+import pyodbc;
 
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
@@ -19,7 +20,17 @@ app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 @app.route(route="get-lista-productos", methods=["GET"])
 def get_producto(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('EJECUTANDO GET LISTA PRODUCTOS')
-    return get_producto_list_handler(req)
+    logging.info(pyodbc.drivers())
+    result = func.HttpResponse(
+        headers={"Content-Type": "application/json"},
+        mimetype="application/json",
+        charset="utf-8",
+    )
+    try:
+        result = get_producto_list_handler(req);
+    except Exception as e:
+        logging.info(e)
+    return result
 
 @app.route(route="get-lista-ventas", methods=["GET"])
 def get_ventas(req: func.HttpRequest) -> func.HttpResponse:
