@@ -1,3 +1,5 @@
+from handlers.getHistorialExistencias import get_historial_existencias_handler
+from handlers.utils import to_mx_timezone
 import pytest
 from handlers.hacerCompraHandler import hacer_compra_handler;
 from handlers.getVentasListHandler import get_ventas_handler;
@@ -8,6 +10,9 @@ from handlers.removeStockHandler import remove_stock_handler;
 from handlers.desactivarProductoHandler import desactivar_producto_handler;
 from handlers.getMermasHandler import get_mermas_handler;
 from handlers.getExistenciasHandler import get_existencias_handler;
+import pprint
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 def sum(a, b):
   return a + b;
@@ -76,7 +81,19 @@ def test_hacer_compra():
 
   # print(get_ventas_handler())
   ##desactivar_producto_handler("PROD001");
-  print(get_existencias_handler("PROD001"))
+  dat = get_ventas_handler()
+  print(
+    list(map(lambda x: x['fecha'],dat))
+  )
+  # fecha = "2023-10-24 21:42:00"
+  # dt = datetime.fromisoformat(fecha)
+  # dt = dt.replace(tzinfo=timezone.utc)
+  # fecha = dat[1]["fecha"]
+  # dtmex = to_mx_timezone(fecha)
+  # mxtimezone = ZoneInfo("America/Mexico_City")
+  # dtmex = fecha.astimezone(mxtimezone)
+  # print(fecha)
+  # print(dtmex)
   assert True
 
 test_hacer_compra()

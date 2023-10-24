@@ -2,7 +2,7 @@
 import azure.functions as func
 from handlers.utils import to_mx_timezone
 from sqlalchemy import select, insert, update
-from .models import Venta, RegistroMerma, Producto, DetalleVenta
+from .models import Venta, RegistroExistencia, RegistroMerma, Producto, DetalleVenta
 from sqlalchemy.ext.serializer import loads, dumps
 from functools import reduce
 import json
@@ -45,20 +45,19 @@ def sumarCantidades(accum, detalle):
     return accum + detalle["cantidad"]
 def calcularTotal(accum, detalle):
     return accum + detalle["producto"]["precio_unitario"] * detalle["cantidad"];
-def get_mermas_handler():
+def get_historial_existencias_handler(codigo):
     session = create_session()
-    stmt = select(RegistroMerma)
-    result = session.execute(stmt).scalars().all()
+    stmt = select(RegistroExistencia).where(RegistroExistencia.codigo_producto == codigo)
+    # result = session.execute(stmt).scalars().all()
+    result = session.scalars(stmt).all()
     list = []
     for r in result:
-        r_dict = {
-          "id": str(r.id),
-          "fecha": to_mx_timezone(str(r.fecha)),
-          "producto": r.producto.as_dict(),
-          "cantidad": r.merma,
-          "total": float(r.subtotal)
-        }
-        list.append(r_dict)
+      r_dict = {
+        "id": str(r.id),
+        "fecha": to_mx_timezone(str(r.fecha)),
+        "existencias": r.existencia
+      }
+      list.append(r_dict)
     session.close()
     return list
 # declare type VentaItem = {

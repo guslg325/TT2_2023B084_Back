@@ -1,5 +1,6 @@
 
 import azure.functions as func
+from handlers.utils import to_mx_timezone
 from sqlalchemy import select, insert, update
 from .models import Venta, RegistroExistencia, RegistroMerma, Producto, DetalleVenta
 from sqlalchemy.ext.serializer import loads, dumps
@@ -53,7 +54,7 @@ def get_existencias_handler(codigo):
     for r in result:
       r_dict = {
         "id": str(r.id),
-        "fecha": str(r.fecha),
+        "fecha": to_mx_timezone(str(r.fecha)),
         "existencias": r.existencia
       }
       list.append(r_dict)

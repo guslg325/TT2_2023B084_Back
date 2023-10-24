@@ -1,4 +1,5 @@
 import azure.functions as func
+from handlers.utils import to_mx_timezone
 from sqlalchemy import select, insert, update
 from .models import Venta, Producto, DetalleVenta
 from sqlalchemy.ext.serializer import loads, dumps
@@ -55,7 +56,7 @@ def get_ventas_handler():
 
         venta = {
             "id": str(r.id),
-            "fecha": str(r.fecha),
+            "fecha": to_mx_timezone(str(r.fecha)),
             "items":venta_items,
             "cantidad": cantidad,
             "total": total,
