@@ -48,6 +48,7 @@ def get_ventas_handler():
             item = {
                 "key": dt.codigo_producto,
                 "cantidad": dt.cantidad,
+                "registro_precio": float(dt.registro_precio),
                 "producto": dt.producto.as_dict()
             }
             venta_items.append(item)

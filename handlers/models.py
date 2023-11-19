@@ -201,13 +201,14 @@ class DetalleVenta(Base):
     cantidad: Mapped[SmallInteger] = mapped_column(SMALLINT, nullable=False)
     subtotal: Mapped[float] = mapped_column(DECIMAL(8, 2), nullable=False)
     codigo_producto: Mapped[str] = mapped_column(ForeignKey("PRODUCTO.codigo"), nullable=False)
+    registro_precio: Mapped[float] = mapped_column(DECIMAL(8, 2), nullable=False)
     id_venta: Mapped[Uuid] = mapped_column(ForeignKey("VENTA.id"), nullable=False)
     venta: Mapped["Venta"] = relationship("Venta", back_populates="detalles_venta")
     producto: Mapped["Producto"] = relationship("Producto", back_populates="detalles_venta")
 
     def __repr__(self):
         return f"DetalleVenta(id={self.id}, cantidad={self.cantidad}, codigo_producto={self.codigo_producto}, " \
-               f"id_venta={self.id_venta})"
+               f"id_venta={self.id_venta}, registro_precio={self.registro_precio})"
 
 
 

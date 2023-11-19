@@ -18,10 +18,12 @@ def hacer_compra_handler(lista_compras=[]):
         find_producto = select(Producto).where(
             Producto.codigo == compra["key"])
         producto = session.execute(find_producto).scalars().first()
+        print(compra)
         listaMapeada.append({
             "id_venta": ventakey,
             "codigo_producto": compra["key"],
             "cantidad": compra["cantidad"],
+            "registro_precio": compra["producto"]["precio"],
             "subtotal": compra["cantidad"] * producto.precio_unitario
         })
     stmt2 = insert(DetalleVenta).values(listaMapeada)
