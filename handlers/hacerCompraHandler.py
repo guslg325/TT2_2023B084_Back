@@ -23,7 +23,7 @@ def hacer_compra_handler(lista_compras=[]):
             "id_venta": ventakey,
             "codigo_producto": compra["key"],
             "cantidad": compra["cantidad"],
-            "registro_precio": compra["producto"]["precio"],
+            "registro_precio": compra["producto"]["precio_unitario"],
             "subtotal": compra["cantidad"] * producto.precio_unitario
         })
     stmt2 = insert(DetalleVenta).values(listaMapeada)
