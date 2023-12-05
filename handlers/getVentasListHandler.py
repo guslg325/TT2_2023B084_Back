@@ -36,7 +36,7 @@ from .connect import create_session
 def sumarCantidades(accum, detalle):
     return accum + detalle["cantidad"]
 def calcularTotal(accum, detalle):
-    return accum + detalle["producto"]["precio_unitario"] * detalle["cantidad"];
+    return accum + detalle["registro_precio"] * detalle["cantidad"];
 def get_ventas_handler():
     session = create_session()
     stmt = select(Venta)
