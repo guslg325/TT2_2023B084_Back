@@ -1,6 +1,7 @@
 import azure.functions as func
 import logging
 import json
+from handlers import getVistaVentasHandler
 from handlers.getProductoListHandler import get_producto_list_handler;
 from handlers.hacerCompraHandler import hacer_compra_handler;
 from handlers.getVentasListHandler import get_ventas_handler;
@@ -64,6 +65,15 @@ def get_existencias(req: func.HttpRequest) -> func.HttpResponse:
         charset="utf-8",
     )
 
+@app.route(route="get-vista-ventas", methods=["GET"])
+def get_vista_ventas(req: func.HttpRequest) -> func.HttpResponse:
+    result = getVistaVentasHandler.get_vista_ventas_handler();
+    return func.HttpResponse(
+        json.dumps(result),
+        headers={"Content-Type": "application/json"},
+        mimetype="application/json",
+        charset="utf-8",
+    )
 @app.route(route="get-all-marcas", methods=["GET"])
 def get_marcas(req: func.HttpRequest) -> func.HttpResponse:
     result = get_all_marcas_handler();

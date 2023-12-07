@@ -211,6 +211,54 @@ class DetalleVenta(Base):
                f"id_venta={self.id_venta}, registro_precio={self.registro_precio})"
 
 
+class VistaVentas(Base):
+    """ Class used for ORM mapping of the DETALLE_VENTA table.
+
+    :param id: (Primary Key) identifier of the object.
+    :param cantidad: number of products sold.
+    :param codigo_producto: (Foreign Key) identifier of the :class:`Producto` object.
+    :param id_venta: (Foreign Key) identifier of the :class:`Venta` object.
+    :param venta: (Relationship) :class:`Venta` object associated with the sale detail.
+    :param producto: (Relationship) :class:`Producto` object associated with the sale detail.
+    :return: ORM object for the DETALLE_VENTA table.
+
+    Generated SQL:
+        CREATE TABLE [DETALLE_VENTA] (
+            id INTEGER NOT NULL IDENTITY,
+            cantidad SMALLINT NOT NULL,
+            codigo_producto VARCHAR(20) NOT NULL,
+            id_venta UNIQUEIDENTIFIER NOT NULL,
+            PRIMARY KEY (id),
+            FOREIGN KEY(codigo_producto) REFERENCES [PRODUCTO] (codigo),
+            FOREIGN KEY(id_venta) REFERENCES [VENTA] (id)
+        )
+    """
+    __tablename__ = 'VISTA_VENTAS'
+
+    id: Mapped[int] = mapped_column(INTEGER, primary_key=True)
+    id_venta: Mapped[Uuid] = mapped_column(UNIQUEIDENTIFIER)
+    codigo_producto: Mapped[str] = mapped_column(VARCHAR(20), primary_key=True)
+    fecha: Mapped[DateTime] = mapped_column(SMALLDATETIME, nullable=False, server_default=text("GETDATE()"))
+    nombre: Mapped[str] = mapped_column(VARCHAR(80), nullable=False)
+    registro_precio: Mapped[float] = mapped_column(DECIMAL(8, 2), nullable=False)
+    cantidad: Mapped[SmallInteger] = mapped_column(SMALLINT, nullable=False)
+    subtotal: Mapped[float] = mapped_column(DECIMAL(8, 2), nullable=False)
+
+    def __repr__(self):
+        return f"VistaVentas(id={self.id}, id_venta={self.id_venta}, codigo_producto={self.codigo_producto}, " \
+                f"fecha={self.fecha}, nombre={self.nombre}, registro_precio={self.registro_precio}, " \
+                f"cantidad={self.cantidad}, subtotal={self.subtotal})"
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "id_venta": str(self.id_venta),
+            "codigo_producto": self.codigo_producto,
+            "fecha": str(self.fecha),
+            "nombre": self.nombre,
+            "registro_precio": float(self.registro_precio),
+            "cantidad": int(self.cantidad),
+            "subtotal": float(self.subtotal)
+        }
 
 class TipoActualizacion(Base):
     """ Class used for ORM mapping of the TIPO_ACTUALIZACION table.
