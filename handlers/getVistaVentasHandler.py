@@ -32,7 +32,7 @@ def get_vista_ventas_handler():
         })
     final_result = [{
         "id_venta": key[0],
-        "fecha": key[1],
+        "fecha": to_mx_timezone(key[1]),
         "items": values,
         "cantidad": reduce(lambda accum, item: accum + item["cantidad"], values, 0),
         "total": reduce(lambda accum, item: accum + item["subtotal"], values, 0)
