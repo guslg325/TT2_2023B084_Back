@@ -33,18 +33,21 @@ def hacer_compra_handler(lista_compras=[]):
         find_producto = select(Producto).where(
             Producto.codigo == compra["key"])
         producto = session.execute(find_producto).scalars().first()
+        print(producto.existencias)
+        print(compra["cantidad"])
+        existfinal = producto.existencias - compra["cantidad"]
+        print(existfinal)
         stmt3 = (
             update(Producto)
             .where(Producto.codigo == compra["key"])
-            .values(existencias=Producto.existencias - compra["cantidad"])
+            .values(existencias=existfinal)
         )
-        print(stmt3)
         session.execute(stmt3)
         stmt4 = (
             insert(RegistroExistencia)
             .values(
                 codigo_producto=compra["key"],
-                existencia=producto.existencias - compra["cantidad"],
+                existencia=existfinal,
             )
         )
         print(stmt4)
